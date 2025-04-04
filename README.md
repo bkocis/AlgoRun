@@ -1,12 +1,13 @@
+---
+__Update: 04-04-2025 update to python3.12.__
+
+---
+
 # AlgoRun
 ## Automated Rietveld refinement code for FullProf software
 
 This repo contains the source code for the automated rietveld strategy testing program that is built on top of [Fullprof](https://www.ill.eu/sites/fullprof/php/downloads.html) crystallographic structure refinement software based on the Rietveld crystallographic refinement method.
 
----
-__Update: 04-04-2025 update to python3.12.__
-
----
 
 ### Description
 
