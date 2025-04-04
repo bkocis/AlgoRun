@@ -1,4 +1,4 @@
-#!/usr/bin/python2
+#!/usr/bin/python3
 import os,time,re 
 from sys import stdout
 import numpy as np
@@ -79,11 +79,13 @@ def h_min_to_float_on_col(jsonName, columnName):
 
 def lattice_const(row_name,out):
 	# open the `*.out` file
-	f=open(out); d=f.readlines(); f.close()
+	with open(out) as f:
+		d=f.readlines()
 
 	# open the `*.pcr` file
 	pcr=out.split('.')[0]+'.pcr'
-	f=open(pcr); p=f.readlines();f.close()
+	with open(pcr) as f:
+		p=f.readlines()
 
 	# define matching strings 
 	match_cell_a=' :      Cell_A_ph'+phase+'_pat'+pattern
@@ -130,7 +132,8 @@ def lattice_const(row_name,out):
 	return df_lattice
 
 def global_parameters(row_name,sumFile):
-	f=open(sumFile); dsum=f.readlines(); f.close()
+	with open(sumFile) as f:
+		dsum=f.readlines()
 	
 	Zero=dsum[find_index_only('Zero',dsum)[0]].split(':')[1].split()
 	SyCos=dsum[find_index_only('Cos.*shift',dsum)[0]].split(':')[1].split()
@@ -162,7 +165,8 @@ def global_parameters(row_name,sumFile):
 
 def reliability_factors(row_name,out):
 	
-	f=open(out); d=f.readlines(); f.close()
+	with open(out) as f:
+		d=f.readlines()
 
 	#global reliability of the whole fit 
 	r1=grep_index('=> Conventional Rietveld',d,1)
@@ -203,7 +207,8 @@ def occ_Biso(row_name,sumFile,discif,out):
 	# Occupancy in normalized site inhabitancy 
 	#
 	# find the line of start 
-	f=open(discif); dcif=f.readlines(); f.close()
+	with open(discif) as f:
+		dcif=f.readlines()
 	sp=find_index_only('_symmetry_equiv_pos_as_xyz ',dcif)[0]
 
 	# get the total number of symmetry equivalent positions 
@@ -217,14 +222,11 @@ def occ_Biso(row_name,sumFile,discif,out):
 	# eq_sym : total number of symmetry equivalent position 
 	#-----
 
-	f=open(sumFile); dsum=f.readlines(); f.close()
-	f=open(out); out=f.readlines(); f.close()
+	with open(sumFile) as f:
+		dsum=f.readlines()
+	with open(out) as f:
+		out=f.readlines()
 
-#	# Bov 
-#	bov=find_index_only('Overall tem. factor',dsum)[0]
-#	Bov=[i.split()[-2] for i in dsum[bov:bov+1]]
-#	Bov_err=[i.split()[-1] for i in dsum[bov:bov+1]]
-	
 	# atomics
 	sl=find_index_only('=> Phase No.  '+phase,dsum)[0]			# only one line exists such
 	a=find_index_only('==> ATOM PARAMETERS:',dsum)				# as many as phases
@@ -294,19 +296,16 @@ def occ_Biso_2(row_name,sumFile,out):
 
 	correct the site occupancy from FullProf's notations 
 	"""
-	f=open(out); out=f.readlines(); f.close()
+	with open(out) as f:
+		out=f.readlines()
 	# eq_sym : total number of symmetry equivalent position 
 	sp=find_index_only('General multiplicity',out)[0]
 	eq_sym=int(out[sp].split(':')[1])
 
 	#-----
 
-	f=open(sumFile); dsum=f.readlines(); f.close()
-
-#	# Bov 
-#	bov=find_index_only('Overall tem. factor',dsum)[0]
-#	Bov=[i.split()[-2] for i in dsum[bov:bov+1]]
-#	Bov_err=[i.split()[-1] for i in dsum[bov:bov+1]]
+	with open(sumFile) as f:
+		dsum=f.readlines()
 
 	# atomics	
 	sl=find_index_only('=> Phase No.  '+phase,dsum)[0]			# only one line exists such
@@ -372,7 +371,8 @@ def read_mic(row_name,mic,hkl):
 	hkl is a list and is read out of the rules_and_settings.py file. 
 		
 	"""
-	f=open(mic); d=f.readlines(); f.close()
+	with open(mic) as f:
+		d=f.readlines()
 
 	def hkl_mic(h,k,l):
 		#a='.*'+str(h)+'(\s+)'+str(k)+'(\s+)'+str(l)+'(\s+).*'
@@ -403,7 +403,8 @@ def read_dis(row_name,discif):
 	and the angles are in the form of a list
 	"""
 	
-	f=open(discif); d=f.readlines(); f.close()
+	with open(discif) as f:
+		d=f.readlines()
 	
 	# find the starting line of distances:
 	n_d=find_index_only(' _geom_bond_atom_site_label_1',d)[0]
@@ -461,7 +462,8 @@ def read_dis_tet(row_name,dis):
 	Reads the `*.dis` file, to extract the O-O distances sine they are not listed in the `*dis.cif` file !!!
 
 	"""	
-	f=open(dis); d=f.readlines(); f.close()
+	with open(dis) as f:
+		d=f.readlines()
 
 	l=[i for i in d if re.search('Atm-1.*Atm-2.*Atm-3',i)!=None]
 	ll=[i.split('d13')[1].strip().split('=')[-1] for i in l]
@@ -745,7 +747,7 @@ def get_results_parametrisation(nn,df_parameters_in_steps):
 			l1 - list of datafiles
 			"""
 
-			print i,ii
+			print(i,ii)
 
 			m3=os.getcwd()
 			# go the the folders of the measurement-dataset

@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 
 import re, os, sys, shutil, subprocess, time
 import numpy as np
@@ -16,7 +16,7 @@ class search_tools():
 		"""
 		s=[]
 		for i in range(0,len(y)):
-			xx=[m.start for m in re.finditer(x,y[i])]
+			xx=[m.start() for m in re.finditer(x,y[i])]
 			if len(xx)>0:
 				s.append(y[i].replace('\n',''))
 		return s
@@ -27,7 +27,7 @@ class search_tools():
 		"""
 		s=[]
 		for i in range(0,len(y)):
-			xx=[m.start for m in re.finditer(x,y[i])]
+			xx=[m.start() for m in re.finditer(x,y[i])]
 			if len(xx)>0:
 				s.append((i,y[i].replace('\n','')))
 		return s
@@ -76,17 +76,7 @@ class search_tools():
 		also returns of the index of the first character of the 'what' word 
 		
 		"""
-#		ss='\\b'+str(what)+'\\b' # the \\b are boundaries
-		# for the case of shperical harmics 'Y21+' and 'Y21-' the signs need to be converted 
-		ss=''
-		for i in what:
-			if i =='-':
-				ss=ss+'\-'
-			elif i =='+':
-				ss=ss+'\+'
-			else:
-				ss='\\b'+ss+i
-		ss=ss+'\s'
+		ss='\\b'+str(what)+'\\b' # the \\b are boundaries
 		# return the index of the exact match 
 		xx=[m.start() for m in re.finditer(ss,where)]
 		return xx
@@ -129,9 +119,8 @@ class atomic_parameters():
 		Biso(pcr_filename,codeword,val,code)
 
 		"""
-		f=open(pcr_filename)
-		a=f.readlines()
-		f.close()
+		with open(pcr_filename) as f:
+			a=f.readlines()
 		a_index=search_tools().find_index_only('Atom',a)
 		
 		a_end_index=search_tools().find_index_only('Profile Parameters',a)
@@ -164,14 +153,13 @@ class atomic_parameters():
 			changed_line_codeline=a_middle[cwp[0]+1]
 	
 		# building back up the section
-		f=open(pcr_filename,'w')
-		f.writelines(pre_a)
-		f.writelines(a_middle[:cwp[0]])
-		f.writelines(changed_line)
-		f.writelines(changed_line_codeline)
-		f.writelines(a_middle[cwp[0]+2:])
-		f.writelines(post_a)
-		f.close()
+		with open(pcr_filename,'w') as f:
+			f.writelines(pre_a)
+			f.writelines(a_middle[:cwp[0]])
+			f.writelines(changed_line)
+			f.writelines(changed_line_codeline)
+			f.writelines(a_middle[cwp[0]+2:])
+			f.writelines(post_a)
 
 
 	def change_occ(self,pcr_filename,codeword,val,code):
@@ -179,9 +167,8 @@ class atomic_parameters():
 		occ(pcr_filename,codeword,val,code)
 
 		"""
-		f=open(pcr_filename)
-		a=f.readlines()
-		f.close()
+		with open(pcr_filename) as f:
+			a=f.readlines()
 		a_index=search_tools().find_index_only('Atom',a)
 
 		a_end_index=search_tools().find_index_only('Profile Parameters',a)
@@ -212,23 +199,21 @@ class atomic_parameters():
 			changed_line_codeline=a_middle[cwp[0]+1]
 	
 		# building back up the section
-		f=open(pcr_filename,'w')
-		f.writelines(pre_a)
-		f.writelines(a_middle[:cwp[0]])
-		f.writelines(changed_line)
-		f.writelines(changed_line_codeline)
-		f.writelines(a_middle[cwp[0]+2:])
-		f.writelines(post_a)
-		f.close()
+		with open(pcr_filename,'w') as f:
+			f.writelines(pre_a)
+			f.writelines(a_middle[:cwp[0]])
+			f.writelines(changed_line)
+			f.writelines(changed_line_codeline)
+			f.writelines(a_middle[cwp[0]+2:])
+			f.writelines(post_a)
 
 	def change_Xpos(self,pcr_filename,codeword,val,code):
 		"""
 		Xpos(pcr_filename,codeword,val,code)
 
 		"""
-		f=open(pcr_filename)
-		a=f.readlines()
-		f.close()
+		with open(pcr_filename) as f:
+			a=f.readlines()
 		a_index=search_tools().find_index_only('Atom',a)
 		
 		a_end_index=search_tools().find_index_only('Profile Parameters',a)
@@ -259,14 +244,13 @@ class atomic_parameters():
 			changed_line_codeline=a_middle[cwp[0]+1]
 	
 		# building back up the section
-		f=open(pcr_filename,'w')
-		f.writelines(pre_a)
-		f.writelines(a_middle[:cwp[0]])
-		f.writelines(changed_line)
-		f.writelines(changed_line_codeline)
-		f.writelines(a_middle[cwp[0]+2:])
-		f.writelines(post_a)
-		f.close()
+		with open(pcr_filename,'w') as f:
+			f.writelines(pre_a)
+			f.writelines(a_middle[:cwp[0]])
+			f.writelines(changed_line)
+			f.writelines(changed_line_codeline)
+			f.writelines(a_middle[cwp[0]+2:])
+			f.writelines(post_a)
 
 
 	def change_Ypos(self,pcr_filename,codeword,val,code):
@@ -274,9 +258,8 @@ class atomic_parameters():
 		Ypos(pcr_filename,codeword,val,code)
 
 		"""
-		f=open(pcr_filename)
-		a=f.readlines()
-		f.close()
+		with open(pcr_filename) as f:
+			a=f.readlines()
 		a_index=search_tools().find_index_only('Atom',a)
 		
 		a_end_index=search_tools().find_index_only('Profile Parameters',a)
@@ -307,14 +290,13 @@ class atomic_parameters():
 			changed_line_codeline=a_middle[cwp[0]+1]
 	
 		# building back up the section
-		f=open(pcr_filename,'w')
-		f.writelines(pre_a)
-		f.writelines(a_middle[:cwp[0]])
-		f.writelines(changed_line)
-		f.writelines(changed_line_codeline)
-		f.writelines(a_middle[cwp[0]+2:])
-		f.writelines(post_a)
-		f.close()
+		with open(pcr_filename,'w') as f:
+			f.writelines(pre_a)
+			f.writelines(a_middle[:cwp[0]])
+			f.writelines(changed_line)
+			f.writelines(changed_line_codeline)
+			f.writelines(a_middle[cwp[0]+2:])
+			f.writelines(post_a)
 
 
 	def change_Zpos(self,pcr_filename,codeword,val,code):
@@ -322,9 +304,8 @@ class atomic_parameters():
 		Zpospcr_filename,codeword,val,code)
 
 		"""
-		f=open(pcr_filename)
-		a=f.readlines()
-		f.close()
+		with open(pcr_filename) as f:
+			a=f.readlines()
 		a_index=search_tools().find_index_only('Atom',a)
 		
 		a_end_index=search_tools().find_index_only('Profile Parameters',a)
@@ -355,14 +336,13 @@ class atomic_parameters():
 			changed_line_codeline=a_middle[cwp[0]+1]
 	
 		# building back up the section
-		f=open(pcr_filename,'w')
-		f.writelines(pre_a)
-		f.writelines(a_middle[:cwp[0]])
-		f.writelines(changed_line)
-		f.writelines(changed_line_codeline)
-		f.writelines(a_middle[cwp[0]+2:])
-		f.writelines(post_a)
-		f.close()
+		with open(pcr_filename,'w') as f:
+			f.writelines(pre_a)
+			f.writelines(a_middle[:cwp[0]])
+			f.writelines(changed_line)
+			f.writelines(changed_line_codeline)
+			f.writelines(a_middle[cwp[0]+2:])
+			f.writelines(post_a)
 
 
 class displacement_parameters():
@@ -377,9 +357,8 @@ class displacement_parameters():
 		Zero(pcr_filename,codeword,val,code)
 
 		"""
-		f=open(pcr_filename)
-		d=f.readlines()
-		f.close()
+		with open(pcr_filename) as f:
+			d=f.readlines()
 		d_index=search_tools().find_index_only('Zero',d)
 			
 		pre_d=d[:d_index[0]+1]
@@ -445,11 +424,10 @@ class displacement_parameters():
 				changed_line=changed_line_code
 
 		# building back up the section
-		f=open(pcr_filename,'w')
-		f.writelines(pre_d)
-		f.writelines(changed_line)
-		f.writelines(post_d)
-		f.close()
+		with open(pcr_filename,'w') as f:
+			f.writelines(pre_d)
+			f.writelines(changed_line)
+			f.writelines(post_d)
 
 
 
@@ -487,7 +465,7 @@ class organize_folders_and_steps():
 	def findall(self,x,y):
 		s=[]
 		for i in range(0,len(y)):
-			xx=[m.start for m in re.finditer(x,y[i])]
+			xx=[m.start() for m in re.finditer(x,y[i])]
 			if len(xx)>0:
 				s.append(y[i].replace('\n',''))
 		return s
@@ -609,10 +587,10 @@ class organize_folders_and_steps():
 		while True:
 			try:
 				os.rename(new,c1)
-				print "overwritten"
+				print("overwritten")
 				break
 			except OSError:
-				print "No *.new found!"
+				print("No *.new found!")
 				break
 
 
@@ -631,21 +609,18 @@ class scale_parameter():
 		chi2_line='! Current global Chi2 '    
 		# the above line has problems when the string contains parentheses a period (dot) 
 		# it causes problems for the search_tools().find_index_only method!
-		f=open(c0)
-		lines=f.readlines()  #*.pcr
-		f.close()
-
+		with open(c0) as f:
+			lines=f.readlines()  #*.pcr
 		i=search_tools().find_index_only(chi2_line,lines)
 
 		pre=lines[ : i[0]] 
 		new_chi2_line='! Current global Chi2 (Bragg contrib.) =      1000000000 \n'
 		post=lines[i[0]+1: ]
 
-		f1= open(c0,'w')
-		f1.writelines(pre)
-		f1.writelines(new_chi2_line)
-		f1.writelines(post)
-		f1.close()	
+		with open(c0,'w') as f1:
+			f1.writelines(pre)
+			f1.writelines(new_chi2_line)
+			f1.writelines(post)
 
 class prof_par():
 
@@ -667,10 +642,8 @@ class prof_par():
 		phases 
 
 		"""
-		f=open(c0)
-		lines=f.readlines()  #*.pcr
-		f.close()
-
+		with open(c0) as f:
+			lines=f.readlines()  #*.pcr
 		ph='!  Data for PHASE number:   '+c1
 		ph_next='!  Data for PHASE number:   '+str(int(c1)+1)
 		ph_section_end='!  2Th1/TOF1    2Th2/TOF2  Pattern to plot'
@@ -802,13 +775,12 @@ class prof_par():
 		pre_line=phase_section[:search_tools().find_index_only(profil_parameters,phase_section)[0]]
 		post_line=phase_section[search_tools().find_index_only(ph_end,phase_section)[0]+2:]
 		
-		f1= open(c0,'w')
-		f1.writelines(pre_phase)
-		f1.writelines(pre_line)
-		f1.writelines(newline)
-		f1.writelines(post_line)
-		f1.writelines(post_phase)
-		f1.close()
+		with open(c0,'w') as f1:
+			f1.writelines(pre_phase)
+			f1.writelines(pre_line)
+			f1.writelines(newline)
+			f1.writelines(post_line)
+			f1.writelines(post_phase)
 
 #------------------------------------------------
 
@@ -832,9 +804,8 @@ class background():
 		bggx=int(bggx.split('bgg')[-1])-1
 		#b=fopen(pcr_filename,1)
 			
-		f=open(pcr_filename)
-		b=f.readlines()
-		f.close()
+		with open(pcr_filename) as f:
+			b=f.readlines()
 
 
 		bgg_index=search_tools().find_index_only('Background',b)
@@ -860,16 +831,16 @@ class background():
 
 		bgg_new=np.hstack((val,codes)).ravel().reshape(8,6)
 		
-		f=open(pcr_filename,'w')
-		f.writelines(pre_a)
-		f.close()
+		with open(pcr_filename,'w') as f:
+			f.writelines(pre_a)
+			f.close()
 
 		with open(pcr_filename,'a') as f_handle:
 			np.savetxt(f_handle,bgg_new,fmt='%.6s',header='! Background ',comments='')
 
-		f=open(pcr_filename,'a')
-		f.writelines(post_a)
-		f.close()
+		with open(pcr_filename,'a') as f:
+			f.writelines(post_a)
+			f.close()
 
 
 ##------------------------------------------------------------------------------

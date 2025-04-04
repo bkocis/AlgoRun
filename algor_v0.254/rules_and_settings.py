@@ -23,3 +23,6 @@ rules="""
 1.58 >= p1-o3 >= 1.50
 """
 
+# number of top results to show
+top_list_n = 5
+
